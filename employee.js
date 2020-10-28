@@ -53,27 +53,27 @@ function startTracker() {
       viewEmployees();
       break;
 
-    case "View All Employees By Department":
+    case "View Employees By Department":
       viewEmployeesByDept();
       break;
 
-    case "View departments":
+    case "View all departments":
       viewDept();
       break;
     
-    case "View roles":
+    case "View all roles":
       viewRoles();
       break;
 
-    case "Add Employee":
+    case "Add New Employee":
       addEmployee();
       break;
   
-    case "Add department":
+    case "Add New department":
       addDept();
       break;
     
-    case "Add role":
+    case "Add New Role":
       addRole();
       break;
 
@@ -85,12 +85,12 @@ function startTracker() {
       updateEmployeeRole();
       break;
     
-    case "Update Employee Manager":
+    case "Update Employee's Manager":
       updateEmployeeMng();
       break;
     
     case "EXIT":
-      console.log("Thanks for using Employee Tracker! Have a nice day!")
+      console.log("Thank you from Employee Tracker! Cheers!")
       process.exit();
     }
   });
