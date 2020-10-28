@@ -15,3 +15,9 @@ var connection = mysql.createConnection({
     password: "Millions2020!",
     database: "employeesDB"
   });
+
+  connection.connect(function(err) {
+    if (err) throw err;
+    console.log("connected as id " + connection.threadId + "\n");
+    createProduct();
+  });
