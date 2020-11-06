@@ -335,19 +335,19 @@ function removeEmployee() {
         }
       };
 
-//     connection.query(
-//       "DELETE FROM employees WHERE id=?",
-//       [chosenEmp.id],
+    connection.query(
+      "DELETE FROM employees WHERE id=?",
+      [chosenEmp.id],
 
-//       function(err) {
-//         if (err) throw err;
-//         console.log("Employee successfully removed!");
-//         startApp();
-//       }
-//     );
-//    });
-//   })
-// };
+      function(err) {
+        if (err) throw err;
+        console.log("Employee successfully removed!");
+        startApp();
+      }
+    );
+   });
+  })
+};
 
 
 //updateEmployeeRole();
@@ -413,7 +413,7 @@ function updateEmployeeRole() {
 };
 
 
-updateEmployeeMng();
+// updateEmployeeMng();
 
 function updateEmployeeMng() {
   var empChoice = [];
