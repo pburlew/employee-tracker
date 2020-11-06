@@ -140,7 +140,89 @@ function viewRoles() {
 };
 
 
-addEmployee();
+//addEmployee() prompts for full employee info
+
+function addEmployee() {
+  //arrays to display prompt choices from database items 
+  var roleChoice = [];
+  connection.query("SELECT * FROM role", function(err, resRole) {
+    if (err) throw err;
+    for (var i = 0; i < resRole.length; i++) {
+      var roleList = resRole[i].title;
+      roleChoice.push(roleList);
+    };
+
+    var deptChoice = [];
+    connection.query("SELECT * FROM departments", function(err, resDept) {
+      if (err) throw err;
+      for (var i = 0; i < resDept.length; i++) {
+        var deptList = resDept[i].name;
+        deptChoice.push(deptList);
+    }
+    
+  inquirer
+    .prompt([
+    {
+      name: "firstName",
+      type: "input",
+      message: "Enter employee's first name:"
+    },
+    {
+      name: "lastName",
+      type: "input",
+      message: "Enter employee's last name:"
+    },
+    {
+      name: "role_id",
+      type: "rawlist",
+      message: "Select employee role:",
+      choices: roleChoice
+    },
+    {
+      name: "department_id",
+      type: "rawlist",
+      message: "Select employee's department:",
+      choices: deptChoice
+    },
+
+  ])
+    .then(function(answer) {
+      //for loop to retun 
+      var chosenRole;
+        for (var i = 0; i < resRole.length; i++) {
+          if (resRole[i].title === answer.role_id) {
+            chosenRole = resRole[i];
+          }
+        };
+
+        var chosenDept;
+        for (var i = 0; i < resDept.length; i++) {
+          if (resDept[i].name === answer.department_id) {
+            chosenDept = resDept[i];
+          }
+        };
+      //connection to insert response into database  
+      connection.query(
+        "INSERT INTO employees SET ?",
+        {
+          first_name: answer.firstName,
+          last_name: answer.lastName,
+          role_id: chosenRole.id,
+          department_id: chosenDept.id
+        },
+        function(err) {
+          if (err) throw err;
+          console.log("Employee " + answer.firstName + " " + answer.lastName + " successfully added!");
+          startApp();
+        }
+      );
+    })
+   });
+  })
+};
+
+
+
 addDept();
 addRole();
 removeEmployee();
