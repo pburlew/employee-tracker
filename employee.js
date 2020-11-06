@@ -96,7 +96,25 @@ function startTracker() {
   });
 }
 
-viewEmployees();
+//Function view all employees
+function viewEmployees() {
+  var query = `SELECT employees.id, employees.first_name, employees.last_name, role.title, departments.name AS department, role.salary, 
+  CONCAT(manager.first_name, ' ', manager.last_name) AS Manager FROM employees LEFT JOIN role on employees.role_id = role.id 
+  LEFT JOIN departments on role.department_id = departments.id LEFT JOIN employees manager on manager.id = employees.manager_id;`;
+  connection.query(query, function(err, query){
+      console.table(query);
+      startApp();
+  });
+};
+
+
+
+
+
+
+
+
+
 viewEmployeesByDept();
 viewDept();
 viewRoles();
