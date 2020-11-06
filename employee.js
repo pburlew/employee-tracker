@@ -120,8 +120,26 @@ function viewEmployeesByDept() {
 };
 
 
-viewDept();
-viewRoles();
+//viewDept();
+function viewDept() {
+  var query = `select id AS Dept_ID, name AS departments from departments;`;
+  connection.query(query, function(err, query){
+    console.table(query);
+    startApp();
+  });
+};
+
+
+//viewRoles();
+function viewRoles() {
+  var query = `select id AS Role_ID, title, salary AS Salaries from role;`;
+  connection.query(query, function(err, query){
+    console.table(query);
+    startApp();
+  });
+};
+
+
 addEmployee();
 addDept();
 addRole();
