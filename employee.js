@@ -335,18 +335,82 @@ function removeEmployee() {
         }
       };
 
-    connection.query(
-      "DELETE FROM employees WHERE id=?",
-      [chosenEmp.id],
+//     connection.query(
+//       "DELETE FROM employees WHERE id=?",
+//       [chosenEmp.id],
 
-      function(err) {
-        if (err) throw err;
-        console.log("Employee successfully removed!");
-        startApp();
-      }
-    );
-   });
+//       function(err) {
+//         if (err) throw err;
+//         console.log("Employee successfully removed!");
+//         startApp();
+//       }
+//     );
+//    });
+//   })
+// };
+
+
+//updateEmployeeRole();
+function updateEmployeeRole() {
+  var empChoice = [];
+    connection.query("SELECT id, CONCAT(first_name, ' ', last_name) AS name FROM employees", function(err, resEmp) {
+      if (err) throw err;
+      for (var i = 0; i < resEmp.length; i++) {
+        var empList = resEmp[i].name;
+        empChoice.push(empList);
+    };
+    
+    var roleChoice = [];
+  connection.query("SELECT * FROM role", function(err, resRole) {
+    if (err) throw err;
+    for (var i = 0; i < resRole.length; i++) {
+      var roleList = resRole[i].title;
+      roleChoice.push(roleList);
+    };
+
+    inquirer
+    .prompt([
+    {
+      name: "employee_id",
+      type: "rawlist",
+      message: "Select the employee you would like to update:",
+      choices: empChoice
+    },
+    {
+      name: "role_id",
+      type: "rawlist",
+      message: "Select employee's new role:",
+      choices: roleChoice
+    }
+  ])
+  .then(function(answer) {
+
+    var chosenEmp;
+        for (var i = 0; i < resEmp.length; i++) {
+          if (resEmp[i].name === answer.employee_id) {
+            chosenEmp = resEmp[i];
+        }
+      };
+
+    var chosenRole;
+      for (var i = 0; i < resRole.length; i++) {
+        if (resRole[i].title === answer.role_id) {
+          chosenRole = resRole[i];
+        }
+      };
+      connection.query(
+        "UPDATE employees SET role_id = ? WHERE id = ?",
+        [chosenRole.id, chosenEmp.id],
+        function(err) {
+          if (err) throw err;
+          console.log("Employee new role successfully updated!");
+          startApp();
+        }
+      );
+    })
+   })
   })
 };
-updateEmployeeRole();
+
+
 updateEmployeeMng();
